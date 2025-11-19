@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { getForms } from "../utils/localStorage";
+import {useDebounce} from "../hooks/useDebounce.";
 
 export default function FormTable() {
   const [forms, setForms] = useState([]);
   const [search, setSearch] = useState("");
 
-  // pagination states
+  const debouncedSearch = useDebounce(search, 400);
+
   const [page, setPage] = useState(1);
   const pageSize = 5;
 
@@ -13,10 +15,11 @@ export default function FormTable() {
     setForms(getForms());
   }, []);
 
-  // search filter
-  const filtered = forms.filter((f) => f.name.includes(search));
+  // فیلتر با debounce
+  const filtered = forms.filter((f) =>
+    f.name.includes(debouncedSearch)
+  );
 
-  // pagination calculations
   const totalPages = Math.ceil(filtered.length / pageSize);
   const startIndex = (page - 1) * pageSize;
   const paginatedData = filtered.slice(startIndex, startIndex + pageSize);
@@ -55,7 +58,7 @@ export default function FormTable() {
         </tbody>
       </table>
 
-      {/* Pagination Buttons */}
+      {/* Pagination */}
       <div className="flex justify-center items-center gap-2 mt-4">
         <button
           className="bg-blue-900 text-white rounded hover:border border-blue-900 hover:text-blue-900 hover:bg-white cursor-pointer px-3 py-1 transition-all duration-300"
@@ -64,10 +67,11 @@ export default function FormTable() {
         >
           بعدی
         </button>
+
         <button className="px-3 py-1">{page}</button>
 
         <button
-          className="bg-blue-900 text-white rounded hover:border border-blue-900 hover:text-blue-900 hover:bg-white cursor-pointer  px-3 py-1 transition-all duration-300"
+          className="bg-blue-900 text-white rounded hover:border border-blue-900 hover:text-blue-900 hover:bg-white cursor-pointer px-3 py-1 transition-all duration-300"
           disabled={page === 1}
           onClick={() => setPage(page - 1)}
         >
