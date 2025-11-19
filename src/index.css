@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@font-face {
+  font-family: Vazirmatn;
+  src: url("/fonts/Vazirmatn-VariableFont_wght.ttf");
+  font-display: block;
+}
+body {
+  font-family: Vazirmatn;
+}
