@@ -16,9 +16,7 @@ export default function FormTable() {
   }, []);
 
   // فیلتر با debounce
-  const filtered = forms.filter((f) =>
-    f.name.includes(debouncedSearch)
-  );
+  const filtered = forms.filter((f) => f.name.includes(debouncedSearch));
 
   const totalPages = Math.ceil(filtered.length / pageSize);
   const startIndex = (page - 1) * pageSize;
@@ -46,15 +44,23 @@ export default function FormTable() {
           </tr>
         </thead>
         <tbody>
-          {paginatedData.map((f, i) => (
-            <tr key={i} className="text-center">
-              <td className="border p-2">
-                {JSON.stringify(f.fields, null, 2)}
+          {paginatedData.length === 0 ? (
+            <tr>
+              <td colSpan="3" className="p-4 text-center text-gray-500">
+                داده‌ای برای نمایش وجود ندارد
               </td>
-              <td className="border p-2">{f.fields.length}</td>
-              <td className="border p-2">{f.name}</td>
             </tr>
-          ))}
+          ) : (
+            paginatedData.map((f, i) => (
+              <tr key={i} className="text-center">
+                <td className="border p-2">
+                  {JSON.stringify(f.fields, null, 2)}
+                </td>
+                <td className="border p-2">{f.fields.length}</td>
+                <td className="border p-2">{f.name}</td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
