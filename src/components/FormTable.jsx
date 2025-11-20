@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getForms } from "../utils/localStorage";
-import {useDebounce} from "../hooks/useDebounce.";
+import useDebounce from "../hooks/useDebounce";
 
 export default function FormTable() {
   const [forms, setForms] = useState([]);
